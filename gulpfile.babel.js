@@ -57,6 +57,7 @@ export const images = () => {
 export const copy = () => {
   return src([
       "**/*",
+      // 'script/main.js',
       '!{images,js,sass}',
       '!{images,js,sass}/**/*',
       "!node_modules{,/**}",
@@ -93,7 +94,7 @@ export const scripts = () => {
         jquery: 'jQuery'
       },
     }))
-    .pipe(dest('js'));
+    .pipe(dest('script'))
 }
 export const compress = () => {
   return src([
@@ -129,9 +130,10 @@ export const watchForChanges = () => {
   watch('sass/**/*.scss', styles);
   watch('images/**/*.{jpg,jpeg,png,svg,gif}', series(images, reload));
   watch(['!{images,js,sass}', '!{images,js,sass}/**/*'], series(copy, reload));
-  watch('js/**/*.js', series(scripts, reload));
+  watch(['js/**/*.js', '!js/main.js'], series(scripts, reload));
   watch("**/*.php", reload);
 }
-export const dev = series(clean, parallel(styles, images, copy, scripts), serve, watchForChanges);
-export const build = series(clean, parallel(styles, images, copy, scripts), pot, compress);
+export const dev = series(clean, parallel(styles, images, scripts), serve, watchForChanges);
+// export const build = series(clean, parallel(styles, images, scripts), copy, pot, compress);
+export const build = series(clean, parallel(styles, images, scripts), copy, pot);
 export default dev;

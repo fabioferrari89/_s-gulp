@@ -1,6 +1,6 @@
 {
   "browserSyncOptions" : {
-    "proxy": "localhost/acimga/",
+    "proxy": "localhost/_s/",
     "notify": false
   }
 }
