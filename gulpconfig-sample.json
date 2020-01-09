@@ -2,5 +2,11 @@
   "browserSyncOptions" : {
     "proxy": "localhost/_s/",
     "notify": false
+  },
+  "deployOption" : {
+    "host":     "IP",
+    "user":     "user",
+    "password": "pwd",
+    "path":     "path"
   }
 }
