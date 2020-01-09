@@ -58,6 +58,7 @@ export const copy = () => {
   return src([
       "**/*",
       // 'script/main.js',
+      "!pug{,/**}",
       '!{images,js,sass}',
       '!{images,js,sass}/**/*',
       "!node_modules{,/**}",
@@ -71,7 +72,7 @@ export const copy = () => {
     .pipe(dest('dist'));
 }
 export const scripts = () => {
-  return src(['js/main.js', 'js/vendor.js'])
+  return src(['js/main.js'])
     .pipe(named())
     .pipe(webpack({
       module: {
@@ -90,15 +91,16 @@ export const scripts = () => {
       output: {
         filename: '[name].js'
       },
-      externals: {
-        jquery: 'jQuery'
-      },
+      // externals: {
+      //   jquery: 'jQuery'
+      // },
     }))
     .pipe(dest('script'))
 }
 export const compress = () => {
   return src([
       "**/*",
+      "!pug{,/**}",
       "!node_modules{,/**}",
       "!bundled{,/**}",
       "!.babelrc",
