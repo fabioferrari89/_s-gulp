@@ -71,7 +71,7 @@ export const copy = () => {
     .pipe(dest('dist'));
 }
 export const scripts = () => {
-  return src(['js/bundle.js'])
+  return src(['js/main.js', 'js/vendor.js'])
     .pipe(named())
     .pipe(webpack({
       module: {
@@ -88,7 +88,7 @@ export const scripts = () => {
       mode: PRODUCTION ? 'production' : 'development',
       devtool: !PRODUCTION ? 'inline-source-map' : false,
       output: {
-        filename: 'main.js'
+        filename: '[name].js'
       },
       externals: {
         jquery: 'jQuery'
