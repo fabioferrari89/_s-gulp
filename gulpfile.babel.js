@@ -25,6 +25,10 @@ import wpPot from "gulp-wp-pot";
 var cfg = require('./gulpconfig.json');
 var paths = cfg.paths;
 
+var rename = require('gulp-rename');
+var pug = require('gulp-pug'),
+  pugPHPFilter = require('pug-php-filter');
+
 const PRODUCTION = yargs.argv.prod;
 const server = browserSync.create();
 export const serve = done => {
@@ -97,6 +101,19 @@ export const scripts = () => {
     }))
     .pipe(dest('script'))
 }
+export const views = () => {
+  return src('./pug/**/*.pug')
+    .pipe(pug({
+      pretty: "\t",
+      filters: {
+        php: pugPHPFilter
+      }
+    }))
+    .pipe(rename(function (path) {
+      path.extname = ".php"
+    }))
+    .pipe(dest('./'));
+};
 export const compress = () => {
   return src([
       "**/*",
@@ -133,9 +150,10 @@ export const watchForChanges = () => {
   watch('images/**/*.{jpg,jpeg,png,svg,gif}', series(images, reload));
   watch(['!{images,js,sass}', '!{images,js,sass}/**/*'], series(copy, reload));
   watch(['js/**/*.js', '!js/main.js'], series(scripts, reload));
+  watch('pug/**/*.pug', series(views, reload));
   watch("**/*.php", reload);
 }
-export const dev = series(clean, parallel(styles, images, scripts), serve, watchForChanges);
+export const dev = series(clean, parallel(styles, images, scripts), views, serve, watchForChanges);
 // export const build = series(clean, parallel(styles, images, scripts), copy, pot, compress);
-export const build = series(clean, parallel(styles, images, scripts), copy, pot);
+export const build = series(clean, parallel(styles, images, scripts), views, copy, pot);
 export default dev;
