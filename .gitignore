@@ -4,8 +4,11 @@ bower_components
 
 # compiled output
 /dist
+/dist-images
 /.tmp
 /script
+/layouts
+style.css
 
 # System Files
 .DS_Store
