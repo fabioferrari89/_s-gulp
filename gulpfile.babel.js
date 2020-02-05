@@ -21,9 +21,12 @@ import zip from "gulp-zip";
 import info from "./package.json";
 import replace from "gulp-replace";
 import wpPot from "gulp-wp-pot";
+// Upload
+var ftp = require( 'vinyl-ftp' );
+var gutil = require( 'gulp-util' );
 
 var cfg = require('./gulpconfig.json');
-var paths = cfg.paths;
+var deployOption = cfg.deployOption;
 
 var rename = require('gulp-rename');
 var pug = require('gulp-pug'),
@@ -56,7 +59,7 @@ export const styles = () => {
 export const images = () => {
   return src('images/**/*.{jpg,jpeg,png,svg,gif}')
     .pipe(gulpif(PRODUCTION, imagemin()))
-    .pipe(dest('dist/images'));
+    .pipe(dest('dist-images'));
 }
 export const copy = () => {
   return src([
@@ -146,14 +149,38 @@ export const pot = () => {
     .pipe(dest(`languages/${info.name}.pot`));
 };
 export const watchForChanges = () => {
-  watch('sass/**/*.scss', styles);
+  watch('sass/**/*.scss', series(styles, reload));
   watch('images/**/*.{jpg,jpeg,png,svg,gif}', series(images, reload));
   watch(['!{images,js,sass}', '!{images,js,sass}/**/*'], series(copy, reload));
-  watch(['js/**/*.js', '!js/main.js'], series(scripts, reload));
+  watch(['js/**/*.js'], series(scripts, reload));
   watch('pug/**/*.pug', series(views, reload));
   watch("**/*.php", reload);
 }
+
+export const deploy = () => {
+  var conn = ftp.create( {
+    host:     deployOption.host,
+    user:     deployOption.user,
+    password: deployOption.password,
+    parallel: 10,
+    log:      gutil.log
+  } );
+
+  var globs = [
+    'dist/**'
+  ];
+
+  // using base = '.' will transfer everything to /public_html correctly
+  // turn off buffering in gulp.src for best performance
+
+  return src( globs )
+    .pipe( conn.newer( deployOption.path ) ) // only upload newer files
+    .pipe( conn.dest( deployOption.path ) );
+}
+
+
 export const dev = series(clean, parallel(styles, images, scripts), views, serve, watchForChanges);
 // export const build = series(clean, parallel(styles, images, scripts), copy, pot, compress);
-export const build = series(clean, parallel(styles, images, scripts), views, copy, pot);
+export const build = series(clean, parallel(styles, images, scripts), views, copy, pot, deploy);
+export const upload = deploy;
 export default dev;
