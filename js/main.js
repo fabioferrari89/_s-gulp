@@ -1,6 +1,6 @@
-import $ from './../node_modules/jquery/dist/jquery.min.js';
+window.$ = require('jquery');
 import 'bootstrap';
-import AOS from './../node_modules/aos/dist/aos.js';
+import AOS from 'aos';
 
 $( document ).ready(function() {
   console.log('ok')
