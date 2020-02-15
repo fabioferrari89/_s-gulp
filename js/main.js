@@ -8,4 +8,6 @@ $( document ).ready(function() {
   $('h1').addClass('demo')
   AOS.init()
 
+  // require('./import/sticky')
+  
 });
