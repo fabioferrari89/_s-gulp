@@ -154,7 +154,7 @@ export const watchForChanges = () => {
   watch(['!{images,js,sass}', '!{images,js,sass}/**/*'], series(copy, reload));
   watch(['js/**/*.js'], series(scripts, reload));
   watch('pug/**/*.pug', series(views, reload));
-  watch("**/*.php", reload);
+//   watch("**/*.php", reload);
 }
 
 export const deploy = () => {
