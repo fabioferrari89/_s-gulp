@@ -44,3 +44,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 :focus {
   outline: none !important;
 }
+::selection {
+  background: $primary;
+  color: $white;
+}
