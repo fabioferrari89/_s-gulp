@@ -75,6 +75,8 @@ export const copy = () => {
       "!gulpfile.babel.js",
       "!package.json",
       "!package-lock.json",
+      "!TODO",
+      "!Icon",
     ])
     .pipe(dest('dist'));
 }
@@ -121,6 +123,8 @@ export const compress = () => {
   return src([
       "**/*",
       "!pug{,/**}",
+      '!{images,js,sass}',
+      '!{images,js,sass}/**/*',
       "!node_modules{,/**}",
       "!bundled{,/**}",
       "!.babelrc",
@@ -128,6 +132,9 @@ export const compress = () => {
       "!gulpfile.babel.js",
       "!package.json",
       "!package-lock.json",
+      "!TODO",
+      "!Icon",
+      "!dist{,/**}",
     ])
     .pipe(
       gulpif(
@@ -180,7 +187,7 @@ export const deploy = () => {
 
 
 export const dev = series(clean, parallel(styles, images, scripts), views, serve, watchForChanges);
-// export const build = series(clean, parallel(styles, images, scripts), copy, pot, compress);
-export const build = series(clean, parallel(styles, images, scripts), views, copy, pot, deploy);
+// export const build = series(clean, parallel(styles, images, scripts), views, copy, pot, deploy);
+export const build = series(clean, parallel(styles, images, scripts), views, copy, pot, compress);
 export const upload = deploy;
 export default dev;
