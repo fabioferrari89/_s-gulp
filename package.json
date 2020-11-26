@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/fabioferrari89/_s-gulp#readme",
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
     "@babel/register": "^7.12.1",
     "autoprefixer": "^10.0.2",
     "babel-loader": "^8.2.1",
@@ -42,8 +42,8 @@
     "pug-php-filter": "0.0.1",
     "vinyl-ftp": "^0.6.1",
     "vinyl-named": "^1.1.0",
-    "webpack-stream": "^6.1.0",
-    "yargs": "^16.1.0"
+    "webpack-stream": "^6.1.1",
+    "yargs": "^16.1.1"
   },
   "dependencies": {
     "aos": "^3.0.0-beta.6",
