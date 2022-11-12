@@ -6,7 +6,9 @@ import {
   parallel
 } from 'gulp';
 import yargs from 'yargs';
-import sass from 'gulp-sass';
+import dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
 import cleanCss from 'gulp-clean-css';
 import gulpif from 'gulp-if';
 import postcss from 'gulp-postcss';
@@ -22,15 +24,14 @@ import info from "./package.json";
 import replace from "gulp-replace";
 import wpPot from "gulp-wp-pot";
 // Upload
-var ftp = require( 'vinyl-ftp' );
-var gutil = require( 'gulp-util' );
+import ftp from 'vinyl-ftp';
+import gutil from 'gulp-util';
 
-var cfg = require('./gulpconfig.json');
-var deployOption = cfg.deployOption;
+import cfg from './gulpconfig.json';
 
-var rename = require('gulp-rename');
-var pug = require('gulp-pug'),
-  pugPHPFilter = require('pug-php-filter');
+import rename from 'gulp-rename';
+import pug from 'gulp-pug';
+import pugPHPFilter from 'pug-php-filter';
 
 const PRODUCTION = yargs.argv.prod;
 const server = browserSync.create();
@@ -63,21 +64,21 @@ export const images = () => {
 }
 export const copy = () => {
   return src([
-      "**/*",
-      // 'script/main.js',
-      "!pug{,/**}",
-      '!{images,js,sass}',
-      '!{images,js,sass}/**/*',
-      "!node_modules{,/**}",
-      "!bundled{,/**}",
-      "!.babelrc",
-      "!.gitignore",
-      "!gulpfile.babel.js",
-      "!package.json",
-      "!package-lock.json",
-      "!TODO",
-      "!Icon",
-    ])
+    "**/*",
+    // 'script/main.js',
+    "!pug{,/**}",
+    '!{images,js,sass}',
+    '!{images,js,sass}/**/*',
+    "!node_modules{,/**}",
+    "!bundled{,/**}",
+    "!.babelrc",
+    "!.gitignore",
+    "!gulpfile.babel.js",
+    "!package.json",
+    "!package-lock.json",
+    "!TODO",
+    "!Icon",
+  ])
     .pipe(dest('dist'));
 }
 export const scripts = () => {
@@ -121,21 +122,21 @@ export const views = () => {
 };
 export const compress = () => {
   return src([
-      "**/*",
-      "!pug{,/**}",
-      '!{images,js,sass}',
-      '!{images,js,sass}/**/*',
-      "!node_modules{,/**}",
-      "!bundled{,/**}",
-      "!.babelrc",
-      "!.gitignore",
-      "!gulpfile.babel.js",
-      "!package.json",
-      "!package-lock.json",
-      "!TODO",
-      "!Icon",
-      "!dist{,/**}",
-    ])
+    "**/*",
+    "!pug{,/**}",
+    '!{images,js,sass}',
+    '!{images,js,sass}/**/*',
+    "!node_modules{,/**}",
+    "!bundled{,/**}",
+    "!.babelrc",
+    "!.gitignore",
+    "!gulpfile.babel.js",
+    "!package.json",
+    "!package-lock.json",
+    "!TODO",
+    "!Icon",
+    "!dist{,/**}",
+  ])
     .pipe(
       gulpif(
         file => file.relative.split(".").pop() !== "zip",
@@ -161,17 +162,17 @@ export const watchForChanges = () => {
   watch(['!{images,js,sass}', '!{images,js,sass}/**/*'], series(copy, reload));
   watch(['js/**/*.js'], series(scripts, reload));
   watch('pug/**/*.pug', series(views, reload));
-//   watch("**/*.php", reload);
+  //   watch("**/*.php", reload);
 }
 
 export const deploy = () => {
-  var conn = ftp.create( {
-    host:     deployOption.host,
-    user:     deployOption.user,
-    password: deployOption.password,
+  var conn = ftp.create({
+    host: cfg.deployOption.host,
+    user: cfg.deployOption.user,
+    password: cfg.deployOption.password,
     parallel: 10,
-    log:      gutil.log
-  } );
+    log: gutil.log
+  });
 
   var globs = [
     'dist/**'
@@ -180,13 +181,14 @@ export const deploy = () => {
   // using base = '.' will transfer everything to /public_html correctly
   // turn off buffering in gulp.src for best performance
 
-  return src( globs )
-    .pipe( conn.newer( deployOption.path ) ) // only upload newer files
-    .pipe( conn.dest( deployOption.path ) );
+  return src(globs)
+    .pipe(conn.newer(cfg.deployOption.path)) // only upload newer files
+    .pipe(conn.dest(cfg.deployOption.path));
 }
 
 
 export const dev = series(clean, parallel(styles, images, scripts), views, serve, watchForChanges);
+// export const dev = series(clean, parallel(styles, images, scripts), serve, watchForChanges);
 // export const build = series(clean, parallel(styles, images, scripts), views, copy, pot, deploy);
 export const build = series(clean, parallel(styles, images, scripts), views, copy, pot, compress);
 export const upload = deploy;

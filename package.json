@@ -30,7 +30,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-if": "^3.0.0",
-    "gulp-imagemin": "^8.0.0",
+    "gulp-imagemin": "^7.1.0",
     "gulp-postcss": "^9.0.0",
     "gulp-pug": "^5.0.0",
     "gulp-rename": "^2.0.0",
@@ -40,21 +40,19 @@
     "gulp-wp-pot": "^2.5.0",
     "gulp-zip": "^5.0.2",
     "pug-php-filter": "0.0.1",
+    "sass": "^1.56.1",
     "vinyl-ftp": "^0.6.1",
     "vinyl-named": "^1.1.0",
     "webpack-stream": "^6.1.1",
     "yargs": "^16.1.1"
   },
   "dependencies": {
-    "aos": "^3.0.0-beta.6",
-    "bootstrap": "^4.6.0",
+    "aos": "^2.3.4",
+    "bootstrap": "^5.2.2",
     "css-loader": "^5.0.1",
     "elliptic": "^6.5.3",
     "gulp-util": "^3.0.8",
-    "jquery": "^3.5.1",
     "lodash.template": "^4.5.0",
-    "popper.js": "^1.16.1",
-    "slick-carousel": "^1.8.1",
     "style-loader": "^2.0.0"
   }
 }
