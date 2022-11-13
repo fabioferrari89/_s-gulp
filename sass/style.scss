@@ -20,11 +20,10 @@ Normalizing styles have been helped along thanks to the fine work of
 Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 */
 
-
 // variabili
 // @import 'vars/vars';
 
-@import "node_modules/bootstrap/scss/bootstrap";
+@import 'node_modules/bootstrap/scss/bootstrap';
 // @import "node_modules/aos/dist/aos.css";
 
 // struttura sito
@@ -38,7 +37,6 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 // vendor hackerati
 // @import 'hack/hack';
-
 
 // hack
 :focus {

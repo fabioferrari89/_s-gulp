@@ -1,8 +1,10 @@
 import 'bootstrap';
 import AOS from 'aos';
 
-console.log('ok')
+console.log('ok');
 
-AOS.init()
+AOS.init();
+
+
 
 
