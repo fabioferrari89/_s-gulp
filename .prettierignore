@@ -1,7 +1,13 @@
+.github/*
+
 js/customizer.js
 js/navigation.js
 js/skip-link-focus-fix.js
 
+layouts/content-sidebar.css
+layouts/sidebar-content.css
+
 .travis.yml
 README.md
+style.css
 woocommerce.css
